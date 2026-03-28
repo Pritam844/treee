@@ -13,6 +13,7 @@ import {
   updateProfile,
   onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAJVBIzd7jN3AD7EfICHvBAzg5Cek0cOoQ",
@@ -27,6 +28,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getDatabase(app);
 
 // ═══════════════════════════════════════════
 // AUTH SYSTEM
@@ -46,6 +48,7 @@ const AUTH = {
   async logout() {
     this.user = null;
     await signOut(this.auth);
+    localStorage.removeItem('treely_state');
     location.reload();
   },
 
@@ -311,9 +314,14 @@ const GROWTH_STAGES = [
 // ── STORAGE ────────────────────────────────────
 function save() {
   localStorage.setItem('treely_state', JSON.stringify(STATE));
+  if (AUTH.user) {
+    try {
+      set(ref(db, 'users/' + AUTH.user.uid + '/state'), STATE);
+    } catch(e) { console.warn('Could not save to Firebase', e); }
+  }
 }
 
-function load() {
+async function load() {
   const raw = localStorage.getItem('treely_state');
   if (raw) {
     try {
@@ -321,6 +329,22 @@ function load() {
       Object.assign(STATE, saved);
     } catch(e) { console.warn('State load error', e); }
   }
+  
+  // Fetch from Firebase and overly on top
+  if (AUTH.user) {
+    try {
+      const snapshot = await get(child(ref(db), 'users/' + AUTH.user.uid + '/state'));
+      if (snapshot.exists()) {
+        const remoteState = snapshot.val();
+        remoteState.tasks = remoteState.tasks || [];
+        remoteState.categories = remoteState.categories || [];
+        remoteState.history = remoteState.history || [];
+        Object.assign(STATE, remoteState);
+        localStorage.setItem('treely_state', JSON.stringify(STATE));
+      }
+    } catch(e) { console.warn('Firebase state load error', e); }
+  }
+
   // Ensure defaults
   if (!STATE.categories || !STATE.categories.length) {
     STATE.categories = DEFAULT_CATEGORIES.map(c => ({...c}));
@@ -1345,40 +1369,41 @@ function boot() {
 }
 
 function bootApp() {
-  load();
-  checkWeekRollover();
+  load().then(() => {
+    checkWeekRollover();
 
-  // Apply theme
-  document.documentElement.setAttribute('data-theme', STATE.theme || 'light');
-  document.querySelector('.theme-icon').textContent = STATE.theme === 'dark' ? '☀️' : '🌙';
+    // Apply theme
+    document.documentElement.setAttribute('data-theme', STATE.theme || 'light');
+    document.querySelector('.theme-icon').textContent = STATE.theme === 'dark' ? '☀️' : '🌙';
 
-  // Init last level-up stage from current XP
-  lastLevelUpStage = getStageIndex(STATE.weekXP);
+    // Init last level-up stage from current XP
+    lastLevelUpStage = getStageIndex(STATE.weekXP);
 
-  // Load seed demo tasks if none
-  if (!STATE.tasks.length) {
-    STATE.tasks = [
-      { id:uid(), name:'Morning Run', category:'cat-fit', time:'07:00', xp:35, note:'30 min minimum', days:[1,2,3,4,5], completedOn:[] },
-      { id:uid(), name:'Study Session', category:'cat-study', time:'09:00', xp:50, note:'Deep work – no phone', days:[0,1,2,3,4,5,6], completedOn:[] },
-      { id:uid(), name:'Post on Instagram', category:'cat-ig', time:'11:00', xp:20, note:'Min 1 story + 1 reel', days:[1,3,5], completedOn:[] },
-      { id:uid(), name:'Upload YouTube Short', category:'cat-yt', time:'15:00', xp:35, note:'', days:[2,5], completedOn:[] },
-      { id:uid(), name:'Evening Workout', category:'cat-fit', time:'18:30', xp:35, note:'Gym or home workout', days:[1,3,5], completedOn:[] },
-      { id:uid(), name:'Football Practice', category:'cat-sport', time:'17:00', xp:20, note:'', days:[2,4,6], completedOn:[] },
-    ];
-    save();
-  }
+    // Load seed demo tasks if none
+    if (!STATE.tasks.length) {
+      STATE.tasks = [
+        { id:uid(), name:'Morning Run', category:'cat-fit', time:'07:00', xp:35, note:'30 min minimum', days:[1,2,3,4,5], completedOn:[] },
+        { id:uid(), name:'Study Session', category:'cat-study', time:'09:00', xp:50, note:'Deep work – no phone', days:[0,1,2,3,4,5,6], completedOn:[] },
+        { id:uid(), name:'Post on Instagram', category:'cat-ig', time:'11:00', xp:20, note:'Min 1 story + 1 reel', days:[1,3,5], completedOn:[] },
+        { id:uid(), name:'Upload YouTube Short', category:'cat-yt', time:'15:00', xp:35, note:'', days:[2,5], completedOn:[] },
+        { id:uid(), name:'Evening Workout', category:'cat-fit', time:'18:30', xp:35, note:'Gym or home workout', days:[1,3,5], completedOn:[] },
+        { id:uid(), name:'Football Practice', category:'cat-sport', time:'17:00', xp:20, note:'', days:[2,4,6], completedOn:[] },
+      ];
+      save();
+    }
 
-  initForms();
-  initEvents();
+    initForms();
+    initEvents();
 
-  // Show the app shell
-  document.getElementById('app').classList.remove('hidden');
-  navigateTo('home');
+    // Show the app shell
+    document.getElementById('app').classList.remove('hidden');
+    navigateTo('home');
 
-  // Notification bar
-  if (!STATE.notifDismissed && 'Notification' in window && Notification.permission === 'default') {
-    setTimeout(() => document.getElementById('notif-bar').classList.remove('hidden'), 3000);
-  }
+    // Notification bar
+    if (!STATE.notifDismissed && 'Notification' in window && Notification.permission === 'default') {
+      setTimeout(() => document.getElementById('notif-bar').classList.remove('hidden'), 3000);
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', boot);
