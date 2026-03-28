@@ -1,0 +1,17 @@
+{
+  "name": "Treely – Grow Your Productivity",
+  "short_name": "Treely",
+  "description": "Grow virtual trees by completing daily tasks.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#f5f8f5",
+  "theme_color": "#2ECC71",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/489/489969.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
