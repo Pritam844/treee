@@ -1,4 +1,4 @@
-# 🌳 Treely – Grow Your Productivity
+# 🌳 Treely – Anti Gravity Productivity Web App
 
 <p align="center">
   <a href="https://treelyx.netlify.app/"><img src="https://img.shields.io/badge/🌐_Live_Website-treelyx.netlify.app-00C7B7?style=for-the-badge&logo=netlify&logoColor=white" alt="Live Website"></a>
@@ -11,24 +11,25 @@
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-5A0FC8?logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)
 [![Capacitor](https://img.shields.io/badge/Capacitor-Android-119EFF?logo=capacitor&logoColor=white)](https://capacitorjs.com/)
 [![Firebase](https://img.shields.io/badge/Firebase-Auth%20%26%20RTDB-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Anti Gravity Showcase](https://img.shields.io/badge/Showcase-Anti_Gravity-6C5CE7?logo=sparkles&logoColor=white)](#)
 
 > **Turn your daily to-dos into a blooming virtual forest.**  
-> Treely is a gamified productivity and habit-tracking web application designed to defeat procrastination. As you complete daily tasks and log hydration, you earn XP to nurture and evolve procedural virtual trees on an interactive canvas.
+> Anti Gravity Treely is a gamified productivity and habit-tracking web application created to demonstrate interactive front-end design, procedural canvas animations, and a smooth user experience that defeats procrastination.
 
 ---
 
 ## 📖 Table of Contents
 
 - [Live Website & App Download](#-live-website--app-download)
-- [Overview](#-overview)
+- [Project Overview](#-project-overview)
 - [Key Features](#-key-features)
-- [Tech Stack](#-tech-stack)
+- [How I Built It](#️-how-i-built-it)
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation & Local Run](#installation--local-run)
   - [Building for Android (Capacitor)](#building-for-android-capacitor)
-- [Deployment](#-deployment)
+- [Hosting & Deployment](#-hosting--deployment)
   - [Deploying to Netlify](#deploying-to-netlify)
   - [Alternative Deployments](#alternative-deployments)
 - [Usage Guide](#-usage-guide)
@@ -48,9 +49,9 @@
 
 ---
 
-## 🌟 Overview
+## 💡 Project Overview
 
-Modern task managers often feel like rigid chore lists. **Treely** transforms productivity into an engaging, visual game:
+**Anti Gravity (Treely)** is a web application created to demonstrate interactive front-end design and smooth user experience.
 
 - **The Problem:** Maintaining daily discipline, finishing tasks on time, and staying hydrated can feel tedious, leading to broken habits and procrastination.
 - **The Solution:** Treely connects your real-world progress to the life cycle of a virtual tree. Every task checked off, streak sustained, and glass of water logged awards XP that directly grows and evolves your tree across weekly milestones. At the end of each cycle, your mature tree joins your permanent **Tree Collection**.
@@ -86,7 +87,13 @@ Modern task managers often feel like rigid chore lists. **Treely** transforms pr
 
 ---
 
-## 🛠 Tech Stack
+## 🛠️ How I Built It
+
+* **Concept & Design:** Developed with a focus on fluid UI layouts, interactive glassmorphic components, micro-animations, and dynamic visual progress tracking.
+* **Tech Stack:** Built using HTML5, CSS3, and JavaScript for structuring, styling, and dynamic behaviors—leveraging the HTML5 2D Canvas API for procedural tree graphics, Firebase for cloud sync, and Capacitor 8 for native Android builds.
+* **Development Process:** Designed and structured the code layout step-by-step, ensuring responsive design for different screen resolutions, offline capability via Progressive Web App (PWA) standards, and touch-optimized controls for mobile devices.
+
+### 🧰 Tech Stack Breakdown
 
 | Domain | Technology / Library | Description |
 |---|---|---|
@@ -96,7 +103,7 @@ Modern task managers often feel like rigid chore lists. **Treely** transforms pr
 | **Backend & Auth** | Google Firebase v10.9 (Auth + RTDB) | Cloud sync, email/password & Google popup sign-in |
 | **Mobile & PWA** | Web App Manifest & Service Worker | Installable on iOS/Android browsers with offline support |
 | **Native Packaging** | Capacitor (`@capacitor/android` v8) | Compiles the web app into a native Android APK |
-| **Hosting** | Netlify / Vercel / GitHub Pages | Static hosting with zero configuration required |
+| **Hosting** | Netlify | Ultra-fast edge distribution and continuous deployment |
 
 ---
 
@@ -181,12 +188,13 @@ Treely is pre-configured to bundle into an Android application using Capacitor.
 
 ---
 
-## 🌐 Deployment
+## 🌐 Hosting & Deployment
+
+* **Hosting Platform:** Deployed and hosted live on **Netlify** at [**treelyx.netlify.app**](https://treelyx.netlify.app/).
+* **Deployment Workflow:** Linked directly to the GitHub repository for continuous deployment—every update pushed to the repository automatically triggers a live build on Netlify.
+* **Data Management:** Operates as a client-side web application handling layout and interactive states directly in the browser, with optional cloud synchronization backed by Firebase Realtime Database.
 
 ### Deploying to Netlify
-
-The production application is deployed and hosted live on Netlify at:  
-👉 **[https://treelyx.netlify.app/](https://treelyx.netlify.app/)**
 
 Treely is a static web application that requires zero build steps for web hosting.
 
