@@ -126,67 +126,7 @@ treely/
 
 ---
 
-## 🚀 Getting Started
 
-### Prerequisites
-
-Ensure you have the following installed on your machine:
-- [Node.js](https://nodejs.org/) (v18.x or later recommended)
-- [Git](https://git-scm.com/)
-- Any static web server (e.g., VS Code Live Server, `npx serve`, or Python's `http.server`)
-
-### Installation & Local Run
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/your-username/treely.git
-   cd treely
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Run locally using any static web server:**
-
-   *Option A: Using `npx serve`*
-   ```bash
-   npx serve .
-   ```
-
-   *Option B: Using Python*
-   ```bash
-   # Python 3
-   python -m http.server 8080
-   ```
-
-   *Option C: VS Code*
-   - Open the project in VS Code.
-   - Right-click `index.html` and click **"Open with Live Server"**.
-
-4. **Open your browser:**
-   Navigate to `http://localhost:3000` (or `http://localhost:8080`).
-
----
-
-### 📱 Building for Android (Capacitor)
-
-Treely is pre-configured to bundle into an Android application using Capacitor.
-
-1. **Ensure Android Studio and Android SDK are installed.**
-2. **Sync web assets to the Android platform:**
-   ```bash
-   npx cap sync
-   ```
-3. **Open the project in Android Studio:**
-   ```bash
-   npx cap open android
-   ```
-4. **Build and Run:**
-   Connect your Android device or start an emulator, then click **Run** inside Android Studio to install the APK.
-
----
 
 ## 🌐 Hosting & Deployment
 
